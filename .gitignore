@@ -1,0 +1,5 @@
+# Ignore task data files
+**/tasks.csv
+
+# Ignore Go binaries
+**/tasks
