@@ -1,0 +1,208 @@
+openapi: 3.0.0
+
+info:
+  title: Calculator API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /add:
+    post:
+      summary: Add two numbers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoNumberRequest'
+      responses:
+        "200":
+          description: Successfully added two numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "429":
+          $ref: '#/components/responses/RateLimited'
+        "500":
+          $ref: '#/components/responses/InternalError'
+
+  /subtract:
+    post:
+      summary: Subtract two numbers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoNumberRequest'
+      responses:
+        "200":
+          description: Successfully subtracted two numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "429":
+          $ref: '#/components/responses/RateLimited'
+        "500":
+          $ref: '#/components/responses/InternalError'
+
+  /multiply:
+    post:
+      summary: Multiply two numbers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoNumberRequest'
+      responses:
+        "200":
+          description: Successfully multiplied two numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "429":
+          $ref: '#/components/responses/RateLimited'
+        "500":
+          $ref: '#/components/responses/InternalError'
+
+  /divide:
+    post:
+      summary: Divide two numbers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DivideRequest'
+      responses:
+        "200":
+          description: Successfully divided two numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "429":
+          $ref: '#/components/responses/RateLimited'
+        "500":
+          $ref: '#/components/responses/InternalError'
+
+  /sum:
+    post:
+      summary: Add all numbers in an array
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SumRequest'
+      responses:
+        "200":
+          description: Successfully summed all numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "429":
+          $ref: '#/components/responses/RateLimited'
+        "500":
+          $ref: '#/components/responses/InternalError'
+
+components:
+  schemas:
+    TwoNumberRequest:
+      type: object
+      required: [number1, number2]
+      properties:
+        number1:
+          type: integer
+          format: int32
+        number2:
+          type: integer
+          format: int32
+
+    DivideRequest:
+      type: object
+      required: [dividend, divisor]
+      properties:
+        dividend:
+          type: integer
+          format: int32
+        divisor:
+          type: integer
+          format: int32
+
+    SumRequest:
+      type: array
+      items:
+        type: integer
+        format: int32
+
+    ResultResponse:
+      type: object
+      properties:
+        result:
+          type: integer
+          format: int32
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        request_id:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Invalid input or validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Missing or invalid authentication token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    RateLimited:
+      description: Too many requests, rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
